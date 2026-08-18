@@ -26,6 +26,7 @@ export const registrationSchema: FormSchema<RegistrationValues> = {
   },
   email: {
     label: 'L\'adresse email',
+    feminine: true,
     required: true,
     email: true,
     maxLength: 254,
@@ -44,6 +45,7 @@ export const registrationSchema: FormSchema<RegistrationValues> = {
   },
   confirmPassword: {
     label: 'La confirmation',
+    feminine: true,
     required: true,
     match: 'password',
   },

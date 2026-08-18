@@ -9,8 +9,10 @@
 export type FormValues = Record<string, string>
 
 export interface FieldSchema {
-  /** Utilisé tel quel dans les messages d'erreur. */
+  /** Utilisé tel quel dans les messages d'erreur, article compris. */
   label: string
+  /** Accorde les messages générés : « est requis » / « est requise ». */
+  feminine?: boolean
   required?: boolean
   minLength?: number
   maxLength?: number
@@ -49,7 +51,8 @@ const rules: Rule[] = [
   {
     applies: field => field.required === true,
     isValid: value => value.trim() !== '',
-    message: (_value, { field }) => `${field.label} est requis.`,
+    message: (_value, { field }) =>
+      `${field.label} est requis${field.feminine ? 'e' : ''}.`,
   },
   {
     applies: field => field.email === true,
