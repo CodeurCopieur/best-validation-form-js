@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+
+/* Palette sémantique : un seul jeu de classes, thème clair/sombre automatique. */
+:root {
+  --canvas: oklch(0.985 0.003 106);
+  --surface: oklch(1 0 0);
+  --surface-sunken: oklch(0.975 0.004 106);
+  --ink: oklch(0.21 0.011 265);
+  --ink-soft: oklch(0.44 0.012 265);
+  --ink-faint: oklch(0.62 0.011 265);
+  --line: oklch(0.912 0.005 265);
+  --line-strong: oklch(0.83 0.007 265);
+  --accent: oklch(0.48 0.135 258);
+  --accent-ink: oklch(0.985 0 0);
+  --positive: oklch(0.58 0.115 158);
+  --negative: oklch(0.56 0.185 20);
+  --warning: oklch(0.72 0.15 72);
+  --shadow-ambient: 0 1px 2px oklch(0.21 0.011 265 / 0.05),
+    0 12px 40px -12px oklch(0.21 0.011 265 / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: oklch(0.16 0.008 265);
+    --surface: oklch(0.204 0.009 265);
+    --surface-sunken: oklch(0.243 0.01 265);
+    --ink: oklch(0.965 0.003 265);
+    --ink-soft: oklch(0.76 0.009 265);
+    --ink-faint: oklch(0.6 0.01 265);
+    --line: oklch(0.31 0.011 265);
+    --line-strong: oklch(0.42 0.013 265);
+    --accent: oklch(0.72 0.115 254);
+    --accent-ink: oklch(0.18 0.012 265);
+    --positive: oklch(0.75 0.12 160);
+    --negative: oklch(0.71 0.15 20);
+    --warning: oklch(0.79 0.14 74);
+    --shadow-ambient: 0 1px 2px oklch(0 0 0 / 0.3),
+      0 16px 48px -16px oklch(0 0 0 / 0.55);
+  }
+}
+
+@theme inline {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--surface-sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-warning: var(--warning);
+
+  --shadow-ambient: var(--shadow-ambient);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Focus visible cohérent sur toute l'interface. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  /* Neutralise le fond jaune de l'autofill Chrome sur nos champs. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--ink);
+    box-shadow: 0 0 0 1000px var(--surface) inset;
+  }
+}
+
+@layer components {
+  /* Masqué jusqu'à l'animation d'entrée GSAP, sans faire clignoter la page
+     si JS n'est pas disponible. */
+  .js .reveal-hidden {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal-hidden {
+    opacity: 1;
+  }
+}
